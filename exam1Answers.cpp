@@ -87,6 +87,8 @@ public:
 MixedFraction::MixedFraction(int integer, int num, int den)
 {
     // YOUR CODE HERE
+    this->integer = integer;
+    this->fraction = Fraction(num, den);
 }
 
 /**
@@ -102,6 +104,8 @@ MixedFraction::MixedFraction(int integer, int num, int den)
 void MixedFraction::setMixedFraction(int integer, int num, int den)
 {
     // YOUR CODE HERE
+    this->integer = integer;
+    this->fraction = Fraction(num,den);
 }
 
 /**
@@ -117,6 +121,14 @@ void MixedFraction::setMixedFraction(int integer, int num, int den)
 MixedFraction MixedFraction::add(const MixedFraction &mf2) const
 {
     // YOUR CODE HERE
+    Fraction f1 = this->getImproperFraction();  //* GET FRACTION
+    Fraction f2 = mf2.getImproperFraction();    //* GET FRACTION
+    Fraction f3 = f1.add(f2);   //? ADD FUNCTION ALREADY IN CLASS
+    int integer = f3.getNumerator() / f3.getDenominator();  //* CONSIGO ENTERO
+    int num = f3.getNumerator() % f3.getDenominator();  //* CONSIGO NUMERADOR
+    int den = f3.getDenominator();  //* CONSIGO DENOMINADOR
+    cout << "==================================================\n";
+    return MixedFraction(integer, num, den);
 }
 
 /**
@@ -129,6 +141,8 @@ MixedFraction MixedFraction::add(const MixedFraction &mf2) const
 double MixedFraction::getNumericalValue() const
 {
     // YOUR CODE HERE
+    Fraction f1 = this->getImproperFraction();
+    return f1.getNumericalValue();  //* METHOD ALREADY IN CLASS
 }
 
 /**
@@ -142,6 +156,11 @@ double MixedFraction::getNumericalValue() const
 bool MixedFraction::isEquivalentWith(const Fraction &f) const
 {
     // YOUR CODE HERE
+    Fraction f1 = this->getImproperFraction();
+    if (f1.getNumericalValue() == f.getNumericalValue()){
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -156,6 +175,13 @@ bool MixedFraction::isEquivalentWith(const Fraction &f) const
 bool MixedFraction::isBetweenClosedInterval(double min, double max) const
 {
     // YOUR CODE HERE
+    Fraction f1 = this->getImproperFraction();
+    if (f1.getNumericalValue() >= min && f1.getNumericalValue() <= max){    //* IF NUMERICAL_VALUE IS BETWEEN MINIMUM AND MAXIMUM
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 /**
@@ -171,6 +197,10 @@ bool MixedFraction::isBetweenClosedInterval(double min, double max) const
 bool MixedFraction::isValidMixedFraction(const MixedFraction &mxfr)
 {
     // YOUR CODE HERE
+    if (mxfr.getInteger() != 0 && mxfr.getFraction().getNumerator() < mxfr.getFraction().getNumerator()){   //? IF THE "ENTERO" IS NOT ZERO and THE NUMERATOR IS LESS THAN THE DENOMINATOR
+        return true;
+    }
+    return false;
 }
 
 int gcd(int a, int b)
@@ -194,4 +224,9 @@ int gcd(int a, int b)
 void MixedFraction::reduceFraction()
 {
     // YOUR CODE HERE
+    int num = this->fraction.getNumerator();
+    int den = this->fraction.getDenominator();
+    int gcd1 = gcd(num, den);
+    this->fraction.setNumerator(num / gcd1);
+    this->fraction.setDenominator(den / gcd1);
 }
